@@ -7,8 +7,6 @@ import processing.core.PVector;
 import toxi.geom.Vec2D;
 
 public class AgentPicMerge extends PApplet {
-
-	
 	
 	PImage canvas, pic1, pic2;
 	PVector agent;
@@ -19,7 +17,6 @@ public class AgentPicMerge extends PApplet {
 	{
 		size(500,500);
 
-
 		canvas = createImage(500, 500, RGB);
 		pic1 = loadImage("pic01.jpg");
 		pic2 = loadImage("pic02.jpg");
@@ -27,8 +24,7 @@ public class AgentPicMerge extends PApplet {
 		pic2.resize(width, height);
 		pic1.loadPixels();
 		pic2.loadPixels();
-
-
+		
 		flock01 = new Flock(this);
 		// Add an initial set of boids into the system
 		for (int i = 0; i < boidAmount; i++) {
@@ -39,7 +35,7 @@ public class AgentPicMerge extends PApplet {
 		// Add an initial set of boids into the system
 		for (int i = 0; i < boidAmount; i++) {
 			flock02.addBoid(new Boid(this, new Vec2D(width/2f,height/2f),3.0f, 0.05f));
-	}
+		}
 		  
 		  
 	}
@@ -47,38 +43,36 @@ public class AgentPicMerge extends PApplet {
 	public void draw() 
 	{
 		background(0);
-		
-		canvas.loadPixels();
-		
-//		//get color of source pixel and apply it to the canvas
-//		float r = red(pic1.pixels[pixelLoc]);
-//		float g = green(pic1.pixels[pixelLoc]);
-//		float b = blue(pic1.pixels[pixelLoc]);
-		
-		
-		for(int i = 0; i < flock01.boids.size(); i++)
-		{
-			Boid tempBoid = (Boid) flock01.boids.get(i);
-			int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-			canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
 
-		}
-		for(int i = 0; i < flock02.boids.size(); i++)
+		if(pic1.isLoaded() && pic2.isLoaded())
 		{
-			Boid tempBoid = (Boid) flock02.boids.get(i);
-			int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-			
-			canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+			canvas.loadPixels();
+			if(canvas.isLoaded())
+			{
 
+				for(int i = 0; i < flock01.boids.size(); i++)
+				{
+					Boid tempBoid = (Boid) flock01.boids.get(i);
+					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
+					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
+
+				}
+				for(int i = 0; i < flock02.boids.size(); i++)
+				{
+					Boid tempBoid = (Boid) flock02.boids.get(i);
+					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
+					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+				}
+
+				//Update canvas pixel
+				canvas.updatePixels();
+				//display canvas
+				image(canvas, 0, 0);
+
+				flock01.run();
+				flock02.run();
+			}
 		}
-		
-		//Update canvas pixel
-		canvas.updatePixels();
-		//display canvas
-		image(canvas, 0, 0);
-		
-		flock01.run();
-		flock02.run();
 		
 	}
 	
@@ -99,7 +93,7 @@ public class AgentPicMerge extends PApplet {
 		
 	}
 	
-//	public static void main(String _args[]) {
-//		PApplet.main(new String[] { agentpicmerge.AgentPicMerge.class.getName() });
-//	}
+	public static void main(String _args[]) {
+		PApplet.main(new String[] {  agentpicmerge.AgentPicMerge.class.getName() });
+	}
 }
