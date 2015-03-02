@@ -11,7 +11,7 @@ public class AgentPicMerge extends PApplet {
 	PImage canvas, pic1, pic2;
 	PVector agent;
 	Flock flock01, flock02;
-	int boidAmount = 200;
+	int boidAmount = 10;
 	
 	public void setup() 
 	{
@@ -44,20 +44,32 @@ public class AgentPicMerge extends PApplet {
 	{
 		background(0);
 
-		if(pic1.isLoaded() && pic2.isLoaded())
+		if( pic1.isLoaded() && pic2.isLoaded() )
 		{
 			canvas.loadPixels();
-			if(canvas.isLoaded())
+			if( canvas.isLoaded() )
 			{
 
-				for(int i = 0; i < flock01.boids.size(); i++)
+				for( int i = 0; i < flock01.boids.size(); i++ )
 				{
 					Boid tempBoid = (Boid) flock01.boids.get(i);
 					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
 					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
+					
+					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
+					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
+					
+					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
+					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
+					
+					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
+					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
+					
+					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
+					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
 
 				}
-				for(int i = 0; i < flock02.boids.size(); i++)
+				for( int i = 0; i < flock02.boids.size(); i++ )
 				{
 					Boid tempBoid = (Boid) flock02.boids.get(i);
 					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
@@ -76,7 +88,7 @@ public class AgentPicMerge extends PApplet {
 		
 	}
 	
-	int getPixLoc(float x_, float y_){
+	int getPixLoc( float x_, float y_ ){
 		
 		int location = (int)(x_ + y_ * width);
 		
