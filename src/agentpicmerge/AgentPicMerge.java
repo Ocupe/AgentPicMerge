@@ -5,13 +5,21 @@ import processing.core.PImage;
 import processing.core.PVector;
 // to find the right pixel pixelarrayNr = x+(y*width);
 import toxi.geom.Vec2D;
+import punktiert.math.*;
+import punktiert.physics.VBoid;
+import punktiert.physics.VParticle;
+import punktiert.physics.VParticleGroup;
+import punktiert.physics.VPhysics;
+
 
 public class AgentPicMerge extends PApplet {
 	
 	PImage canvas, pic1, pic2;
-	PVector agent;
 	Flock flock01, flock02;
 	int boidAmount = 10;
+	
+	VPhysics physics;
+	VParticleGroup groupe01, gourpe02;
 	
 	public void setup() 
 	{
@@ -24,6 +32,26 @@ public class AgentPicMerge extends PApplet {
 		pic2.resize(width, height);
 		pic1.loadPixels();
 		pic2.loadPixels();
+		
+		//punktiert code
+		physics = new VPhysics(width, height);
+		
+		int amount = 10;
+
+		for (int i = 0; i < amount; i++) 
+		{
+			Vec pos = new Vec(random(10, width), random(10, height));
+			float rad = random(3, 6);
+			VBoid p = new VBoid(pos);
+			p.swarm.setSeperationScale((float) (rad*.7));
+			p.setRadius(rad);
+			physics.addParticle(p);
+//			if(i < amount/2){
+//				groupe01.addParticle(p);
+//			}else{
+//				gourpe02.addParticle(p);
+//			}
+		}
 		
 		flock01 = new Flock(this);
 		// Add an initial set of boids into the system
@@ -43,38 +71,44 @@ public class AgentPicMerge extends PApplet {
 	public void draw() 
 	{
 		background(0);
+		
+		physics.update();
 
-		if( pic1.isLoaded() && pic2.isLoaded() )
-		{
 			canvas.loadPixels();
-			if( canvas.isLoaded() )
-			{
-
-				for( int i = 0; i < flock01.boids.size(); i++ )
+				
+				for (VParticle p : physics.particles) 
 				{
-					Boid tempBoid = (Boid) flock01.boids.get(i);
-					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
-					
-//					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
-//					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
-//					
-//					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
-//					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
-//					
-//					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
-//					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
-//					
-//					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
-//					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
+					int pixLoc1 = getPixLoc(round(p.x), round(p.y -1 ));
+					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
+				}
+				
 
-				}
-				for( int i = 0; i < flock02.boids.size(); i++ )
-				{
-					Boid tempBoid = (Boid) flock02.boids.get(i);
-					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
-				}
+
+//				for( int i = 0; i < flock01.boids.size(); i++ )
+//				{
+//					Boid tempBoid = (Boid) flock01.boids.get(i);
+//					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
+//					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
+//					
+////					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
+////					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
+////					
+////					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
+////					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
+////					
+////					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
+////					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
+////					
+////					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
+////					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
+//
+//				}
+//				for( int i = 0; i < flock02.boids.size(); i++ )
+//				{
+//					Boid tempBoid = (Boid) flock02.boids.get(i);
+//					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
+//					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+//				}
 
 				//Update canvas pixel
 				canvas.updatePixels();
@@ -82,10 +116,14 @@ public class AgentPicMerge extends PApplet {
 				//display canvas
 				image(canvas, 0, 0);
 				
-				flock01.run();
-				flock02.run();
-			}
-		}
+				for (VParticle p : physics.particles) 
+				{
+					ellipse(p.x, p.y, p.getRadius()*2, p.getRadius()*2);
+				}
+				
+//				flock01.run();
+//				flock02.run();
+
 		
 	}
 	

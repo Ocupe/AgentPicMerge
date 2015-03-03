@@ -75,8 +75,15 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AgentPicMerge/lib/base/core"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/user/toxiclibs-complete-0020/toxiclibscore.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/user/punktiert/punktiert.jar" sourcepath="/Users/Jonas/Documents/Processing/libraries/punktiert/src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/Jonas/Documents/Processing/libraries/punktiert/reference/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AgentPicMerge/lib/user/punktiert"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ProcessingLib"/>
+	<classpathentry kind="lib" path="/Users/Jonas/Documents/Processing/libraries/punktiert/library/punktiert.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
