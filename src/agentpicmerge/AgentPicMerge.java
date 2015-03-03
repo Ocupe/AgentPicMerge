@@ -56,17 +56,17 @@ public class AgentPicMerge extends PApplet {
 					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
 					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
 					
-					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
-					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
-					
-					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
-					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
-					
-					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
-					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
-					
-					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
-					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
+//					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
+//					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
+//					
+//					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
+//					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
+//					
+//					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
+//					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
+//					
+//					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
+//					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
 
 				}
 				for( int i = 0; i < flock02.boids.size(); i++ )
@@ -78,9 +78,10 @@ public class AgentPicMerge extends PApplet {
 
 				//Update canvas pixel
 				canvas.updatePixels();
+
 				//display canvas
 				image(canvas, 0, 0);
-
+				
 				flock01.run();
 				flock02.run();
 			}
