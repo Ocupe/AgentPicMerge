@@ -15,8 +15,6 @@ import punktiert.physics.VPhysics;
 public class AgentPicMerge extends PApplet {
 	
 	PImage canvas, pic1, pic2;
-	Flock flock01, flock02;
-	int boidAmount = 10;
 	
 	VPhysics physics;
 	VParticleGroup groupe01, gourpe02;
