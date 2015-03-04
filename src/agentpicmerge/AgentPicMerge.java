@@ -51,18 +51,9 @@ public class AgentPicMerge extends PApplet {
 //			}else{
 //				gourpe02.addParticle(p);
 //			}
-		}
-		
-		flock01 = new Flock(this);
-		// Add an initial set of boids into the system
-		for (int i = 0; i < boidAmount; i++) {
-			flock01.addBoid(new Boid(this, new Vec2D(width/2f,height/2f),3.0f, 0.05f));
-		}
-		
-		flock02 = new Flock(this);
-		// Add an initial set of boids into the system
-		for (int i = 0; i < boidAmount; i++) {
-			flock02.addBoid(new Boid(this, new Vec2D(width/2f,height/2f),3.0f, 0.05f));
+//			
+//			physics.addGroup(groupe01);
+//			physics.addGroup(gourpe02);
 		}
 		  
 		  
@@ -71,60 +62,35 @@ public class AgentPicMerge extends PApplet {
 	public void draw() 
 	{
 		background(0);
-		
+
 		physics.update();
-
-			canvas.loadPixels();
-				
-				for (VParticle p : physics.particles) 
-				{
-					int pixLoc1 = getPixLoc(round(p.x), round(p.y -1 ));
-					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
-				}
-				
-
-
-//				for( int i = 0; i < flock01.boids.size(); i++ )
-//				{
-//					Boid tempBoid = (Boid) flock01.boids.get(i);
-//					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-//					canvas.pixels[pixLoc] = pic1.pixels[pixLoc];
-//					
-////					int pixLoc1 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y -1 ));
-////					canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1], 10);
-////					
-////					int pixLoc2 = getPixLoc(round(tempBoid.loc.x + 1), round(tempBoid.loc.y));
-////					canvas.pixels[pixLoc2] = color(pic1.pixels[pixLoc2], 10);
-////					
-////					int pixLoc3 = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y + 1));
-////					canvas.pixels[pixLoc3] = color(pic1.pixels[pixLoc3], 10);
-////					
-////					int pixLoc4 = getPixLoc(round(tempBoid.loc.x - 1), round(tempBoid.loc.y));
-////					canvas.pixels[pixLoc4] = color(pic1.pixels[pixLoc4], 10);
-//
-//				}
-//				for( int i = 0; i < flock02.boids.size(); i++ )
-//				{
-//					Boid tempBoid = (Boid) flock02.boids.get(i);
-//					int pixLoc = getPixLoc(round(tempBoid.loc.x), round(tempBoid.loc.y));
-//					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
-//				}
-
-				//Update canvas pixel
-				canvas.updatePixels();
-
-				//display canvas
-				image(canvas, 0, 0);
-				
-				for (VParticle p : physics.particles) 
-				{
-					ellipse(p.x, p.y, p.getRadius()*2, p.getRadius()*2);
-				}
-				
-//				flock01.run();
-//				flock02.run();
-
 		
+
+		canvas.loadPixels();
+		
+		if(canvas.loaded)
+		{
+
+			for (VParticle p : physics.particles) 
+			{
+				int pixLoc1 = getPixLoc(round(p.x), round(p.y));
+				canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1]);
+			}
+
+			//Update canvas pixel
+			canvas.updatePixels();
+
+			//display canvas
+			image(canvas, 0, 0);
+
+			for (VParticle p : physics.particles) 
+			{
+				ellipse(p.x, p.y, p.getRadius()*2, p.getRadius()*2);
+			}
+		}else{
+			println("not yet loaded");
+		}
+
 	}
 	
 	int getPixLoc( float x_, float y_ ){
