@@ -12,6 +12,7 @@ import punktiert.physics.VParticleGroup;
 import punktiert.physics.VPhysics;
 
 
+@SuppressWarnings("serial")
 public class AgentPicMerge extends PApplet {
 	
 	PImage canvas, pic1, pic2;
@@ -19,9 +20,12 @@ public class AgentPicMerge extends PApplet {
 	VPhysics physics;
 	VParticleGroup groupe01, gourpe02;
 	
+	boolean safeFrame = false;
+	
 	public void setup() 
 	{
 		size(500,500);
+		frameRate(2000);
 
 		canvas = createImage(500, 500, RGB);
 		pic1 = loadImage("pic01.jpg");
@@ -60,36 +64,31 @@ public class AgentPicMerge extends PApplet {
 	public void draw() 
 	{
 		background(0);
-
 		physics.update();
 		
-
+		//canvas img is going to be manipulated here
 		canvas.loadPixels();
-		
-		if(canvas.loaded)
+		for (VParticle p : physics.particles) 
 		{
-
-			for (VParticle p : physics.particles) 
-			{
-				int pixLoc1 = getPixLoc(round(p.x), round(p.y));
-				canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1]);
-			}
-
-			//Update canvas pixel
-			canvas.updatePixels();
-
-			//display canvas
-			image(canvas, 0, 0);
-
-			for (VParticle p : physics.particles) 
-			{
-				ellipse(p.x, p.y, p.getRadius()*2, p.getRadius()*2);
-			}
-		}else{
-			println("not yet loaded");
+			int pixLoc1 = getPixLoc(round(p.x), round(p.y));
+			canvas.pixels[pixLoc1] = color(pic1.pixels[pixLoc1]);
 		}
+		canvas.updatePixels();
+		image(canvas, 0, 0);
 
+		for (VParticle p : physics.particles)
+		{
+			ellipse(p.x, p.y, p.getRadius()*2, p.getRadius()*2);
+		}
+		
+		//if key 's' is pressed take a screenshot
+		if (safeFrame){
+			saveFrame("test_#####.png");
+			safeFrame = false;
+		}
+		println(frameRate);
 	}
+	
 	
 	int getPixLoc( float x_, float y_ ){
 		
@@ -102,10 +101,13 @@ public class AgentPicMerge extends PApplet {
 		return location;
 	}
 	
+	
 	public void keyPressed(){
-		
-		
-		
+		if(key == 'r') setup();
+	}
+	
+	public void keyDown(){
+		if(key == 's') safeFrame = !safeFrame;
 	}
 	
 	public static void main(String _args[]) {
