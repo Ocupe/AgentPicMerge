@@ -86,24 +86,27 @@ public class AgentPicMerge extends PApplet {
 		//canvas img is going to be manipulated here
 		canvas.loadPixels();
 		
-		noStroke();
-		for(VParticleGroup g : physics.groups)
-		{
-			for (VParticle p : g.particles) 
-			{
-				float r = .5f; //ellipse radius
-				int pixLoc = getPixLoc(round(p.x), round(p.y));
-				if(g == groupe01){
-					canvas.pixels[pixLoc] = color(pic1.pixels[pixLoc]);
-//					fill(color(pic1.pixels[pixLoc]));
-//					ellipse(p.x, p.y, r, r);
-				}else{
-					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
-//					fill(color(pic2.pixels[pixLoc]));
-//					ellipse(p.x, p.y, r, r);
-				}
-			}
-		}
+		thread("changeWorldGroupe01");
+		thread("changeWorldGroupe01");
+		
+//		noStroke();
+//		for(VParticleGroup g : physics.groups)
+//		{
+//			for (VParticle p : g.particles) 
+//			{
+//				float r = .5f; //ellipse radius
+//				int pixLoc = getPixLoc(round(p.x), round(p.y));
+//				if(g == groupe01){
+//					canvas.pixels[pixLoc] = color(pic1.pixels[pixLoc]);
+////					fill(color(pic1.pixels[pixLoc]));
+////					ellipse(p.x, p.y, r, r);
+//				}else{
+//					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+////					fill(color(pic2.pixels[pixLoc]));
+////					ellipse(p.x, p.y, r, r);
+//				}
+//			}
+//		}
 		
 		canvas.updatePixels();
 		image(canvas, 0, 0);
@@ -125,6 +128,30 @@ public class AgentPicMerge extends PApplet {
 		}
 //		println(frameRate);
 		lastTime = millis();
+	}
+	
+	public void changeWorldGroupe01()
+	{
+		for (VParticle p : groupe01.particles) 
+		{
+			float r = .5f; //ellipse radius
+			int pixLoc = getPixLoc(round(p.x), round(p.y));
+			canvas.pixels[pixLoc] = color(pic1.pixels[pixLoc]);
+//				fill(color(pic1.pixels[pixLoc]));
+//				ellipse(p.x, p.y, r, r);
+		}
+	}
+	
+	public void changeWorldGroupe02()
+	{
+		for (VParticle p : groupe02.particles) 
+		{
+			float r = .5f; //ellipse radius
+			int pixLoc = getPixLoc(round(p.x), round(p.y));
+			canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+//				fill(color(pic1.pixels[pixLoc]));
+//				ellipse(p.x, p.y, r, r);
+		}
 	}
 	
 	public void saveFrameToDisk()
