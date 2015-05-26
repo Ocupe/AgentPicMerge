@@ -32,8 +32,8 @@ public class AgentPicMerge extends PApplet {
 	
 	public void setup() 
 	{
-		size(500,500);
-		frameRate(2000);
+		size(1222,800);
+		frameRate(200);
 		smooth();
 
 		saveIntervallTimer = millis();
@@ -42,9 +42,9 @@ public class AgentPicMerge extends PApplet {
 		uniqueFolderToSaveTo =str(day())+"_"+str(month())+"_"+str(year())+"-"+str(hour())+"_"+str(minute())+"_"+str(second());
 		println("Folder to save to" + uniqueFolderToSaveTo+ " in "+waitToSave+" mil s intervalls.");
 
-		canvas = createImage(500, 500, RGB);
-		pic1 = loadImage("pic01.jpg");
-		pic2 = loadImage("pic02.jpg");
+		canvas = createImage(width, height, RGB);
+		pic1 = loadImage("pic03.jpg");
+		pic2 = loadImage("pic04.jpg");
 		pic1.resize(width, height);
 		pic2.resize(width, height);
 		pic1.loadPixels();
@@ -55,14 +55,14 @@ public class AgentPicMerge extends PApplet {
 		groupe01 = new VParticleGroup();
 		groupe02 = new VParticleGroup();
 		
-		int amount = 30;
+		int amount = 100;
 
 		for (int i = 0; i < amount; i++) 
 		{
 			Vec pos = new Vec(random(10, width), random(10, height));
 			float rad = 5;
 			VBoid p = new VBoid(pos);
-			p.swarm.setSeperationScale((float) (rad));
+			p.swarm.setSeperationScale((float) (2));
 			p.setRadius(rad);
 			physics.addParticle(p);
 			//add particles to two diffrent groupes
@@ -80,11 +80,11 @@ public class AgentPicMerge extends PApplet {
 	{
 		saveIntervallTimer += millis() - lastTime;
 		
-//		background(0);
+		background(0);
 		physics.update();
 		
 		//canvas img is going to be manipulated here
-//		canvas.loadPixels();
+		canvas.loadPixels();
 		
 		noStroke();
 		for(VParticleGroup g : physics.groups)
@@ -94,19 +94,19 @@ public class AgentPicMerge extends PApplet {
 				float r = .5f; //ellipse radius
 				int pixLoc = getPixLoc(round(p.x), round(p.y));
 				if(g == groupe01){
-//						canvas.pixels[pixLoc] = color(pic1.pixels[pixLoc]);
-					fill(color(pic1.pixels[pixLoc]));
-					ellipse(p.x, p.y, r, r);
+					canvas.pixels[pixLoc] = color(pic1.pixels[pixLoc]);
+//					fill(color(pic1.pixels[pixLoc]));
+//					ellipse(p.x, p.y, r, r);
 				}else{
-//						canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
-					fill(color(pic2.pixels[pixLoc]));
-					ellipse(p.x, p.y, r, r);
+					canvas.pixels[pixLoc] = color(pic2.pixels[pixLoc]);
+//					fill(color(pic2.pixels[pixLoc]));
+//					ellipse(p.x, p.y, r, r);
 				}
 			}
 		}
 		
-//		canvas.updatePixels();
-//		image(canvas, 0, 0);
+		canvas.updatePixels();
+		image(canvas, 0, 0);
 		
 		//draw agents as ellipses if 'd' was pressed
 		if(drawAgents)
